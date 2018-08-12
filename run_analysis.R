@@ -11,11 +11,12 @@ ytest <- read.table(".\\test\\y_test.txt",col.names = "act")
 test <- test[,fcol]
 testD <- cbind(subtest,test,ytest)
 mainD <- rbind(trainD,testD)
-class <- read.table("activity_label.txt")
-Final <- merge(mainD,class,by.x = "act",by.y = "V1")
-Final$act <- NULL
-names(Final) <- sub("^V2$","activity",names(Final))
-names(Final) <- gsub("\\.","",names(Final))
+class <- read.table("activity_labels.txt")
+ActivityData <- merge(mainD,class,by.x = "act",by.y = "V1")
+ActivityData$act <- NULL
+names(ActivityData) <- sub("^V2$","activity",names(ActivityData))
+names(ActivityData) <- gsub("\\.","",names(ActivityData))
 library(dplyr)
-TidyMean <- Final %>% group_by(sub,activity) %>% summarise_all(mean)
+ActivityMeanData <- ActivityData %>% group_by(sub,activity) %>% summarise_all(mean)
+
 
